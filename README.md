@@ -32,6 +32,34 @@ X-Powered-By: Express
 ```
 
 ----
+data
+
+```
+const data = {
+  users: [
+    {
+      id: '1',
+      name: 'A1'
+    },
+    {
+      id: '2',
+      name: 'B2'
+    }
+  ],
+  teams: [
+    {
+      name: 'T1',
+      members: ['1']
+    },
+    {
+      name: 'T2',
+      members: ['1', '2']
+    }
+  ]
+};
+```
+
+----
 query
 
 ```
@@ -79,6 +107,50 @@ response
       {
         "id": "2",
         "name": "B2"
+      }
+    ]
+  }
+}
+```
+
+----
+query
+
+```
+{
+  allTeams {
+    name
+    members {
+      name
+    }
+  }
+}
+```
+
+response
+
+```
+{
+  "data": {
+    "allTeams": [
+      {
+        "name": "T1",
+        "members": [
+          {
+            "name": "A1"
+          }
+        ]
+      },
+      {
+        "name": "T2",
+        "members": [
+          {
+            "name": "A1"
+          },
+          {
+            "name": "B2"
+          }
+        ]
       }
     ]
   }

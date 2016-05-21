@@ -23,6 +23,16 @@ const data = {
       id: '2',
       name: 'B2'
     }
+  ],
+  teams: [
+    {
+      name: 'T1',
+      members: ['1']
+    },
+    {
+      name: 'T2',
+      members: ['1', '2']
+    }
   ]
 };
 
@@ -31,6 +41,20 @@ const UserType = new GraphQLObjectType({
   fields: {
     id: { type: GraphQLString },
     name: { type: GraphQLString }
+  }
+});
+
+const TeamType = new GraphQLObjectType({
+  name: 'Team',
+  fields: {
+    id: { type: GraphQLString },
+    name: { type: GraphQLString },
+    members: {
+      type: new GraphQLList(UserType),
+      resolve(team) {
+        return team.members.map((id) => _.find(data.users, {id}));
+      }
+    }
   }
 });
 
@@ -59,6 +83,12 @@ const schema = new GraphQLSchema({
         type: new GraphQLList(UserType),
         resolve() {
           return data.users;
+        }
+      },
+      allTeams: {
+        type: new GraphQLList(TeamType),
+        resolve() {
+          return data.teams;
         }
       }
     }
