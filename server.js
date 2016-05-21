@@ -8,7 +8,7 @@ import {
   GraphQLObjectType,
   GraphQLString
 } from 'graphql';
-var http = require('http');
+var fetch = require('node-fetch');
 
 const PORT = 3000;
 
@@ -98,24 +98,8 @@ const schema = new GraphQLSchema({
           id: {type: GraphQLString}
         },
         resolve(parent, args) {
-          const {id} = args;
-          return new Promise((resolve, reject) => {
-            const options = {
-              host: 'swapi.co',
-              path: `/api/people/${id}/`
-            };
-            const callback = (response) => {
-              var str = '';
-              response.on('data', function (chunk) {
-                str += chunk;
-              });
-              response.on('end', function () {
-                console.log(JSON.parse(str));
-                resolve(str);
-              });
-            };
-            http.request(options, callback).end();
-          });
+          return fetch(`http://swapi.co/api/people/${args.id}/`)
+            .then((res) => res.text());
         }
       }
     }
