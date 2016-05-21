@@ -7,6 +7,8 @@ npm run dev
 
 go to [http://localhost:3000/graphql](http://localhost:3000/graphql)
 
+
+
 Make query = `{hello}`
 
 or just curl in cli
@@ -26,6 +28,31 @@ X-Powered-By: Express
     "data": {
         "hello": "world"
     }
+}
+```
+
+----
+
+
+query
+
+```
+{
+  user(id: "1") {
+    name
+  }
+}
+```
+
+response
+
+```
+{
+  "data": {
+    "user": {
+      "name": "A1"
+    }
+  }
 }
 ```
 
