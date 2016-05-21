@@ -8,6 +8,7 @@ import {
   GraphQLObjectType,
   GraphQLString
 } from 'graphql';
+var http = require('http');
 
 const PORT = 3000;
 
@@ -89,6 +90,32 @@ const schema = new GraphQLSchema({
         type: new GraphQLList(TeamType),
         resolve() {
           return data.teams;
+        }
+      },
+      swapiPeople: {
+        type: GraphQLString,
+        args: {
+          id: {type: GraphQLString}
+        },
+        resolve(parent, args) {
+          const {id} = args;
+          return new Promise((resolve, reject) => {
+            const options = {
+              host: 'swapi.co',
+              path: `/api/people/${id}/`
+            };
+            const callback = (response) => {
+              var str = '';
+              response.on('data', function (chunk) {
+                str += chunk;
+              });
+              response.on('end', function () {
+                console.log(JSON.parse(str));
+                resolve(str);
+              });
+            };
+            http.request(options, callback).end();
+          });
         }
       }
     }
