@@ -32,8 +32,6 @@ X-Powered-By: Express
 ```
 
 ----
-
-
 query
 
 ```
@@ -56,3 +54,33 @@ response
 }
 ```
 
+----
+query
+
+```
+{
+  allUsers {
+    id,
+    name
+  }
+}
+```
+
+response
+
+```
+{
+  "data": {
+    "allUsers": [
+      {
+        "id": "1",
+        "name": "A1"
+      },
+      {
+        "id": "2",
+        "name": "B2"
+      }
+    ]
+  }
+}
+```

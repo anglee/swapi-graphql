@@ -4,6 +4,7 @@ import graphqlHTTP from 'express-graphql';
 import {
   graphql,
   GraphQLSchema,
+  GraphQLList,
   GraphQLObjectType,
   GraphQLString
 } from 'graphql';
@@ -52,6 +53,12 @@ const schema = new GraphQLSchema({
           console.log('parent = ', parent);
           console.log('args = ', args);
           return _.find(data.users, {id: args.id});
+        }
+      },
+      allUsers: {
+        type: new GraphQLList(UserType),
+        resolve() {
+          return data.users;
         }
       }
     }
